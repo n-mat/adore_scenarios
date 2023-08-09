@@ -21,15 +21,15 @@
 
   <group ns="/vehicle0">
         <param name="simulationID" value="0" type="int" />
-        <include file="demo_plotters.launch"/>
-        
+        <include file="$(env ADORE_SOURCE_DIRECTORY)/adore_scenarios/demo_plotters.launch"/>
+ 
         <!--Parameters-->
         <param name="PARAMS/tactical_planner/global_speed_limit" value="14" type="double"/>
-        <param name="PARAMS/track" value="$(dirname)/../adore_if_carla/adore_if_carla/launch/Town10HD.xodr" type="str" />
-        <include ns="PARAMS" file="$(dirname)/adore_params_vehicle_independent.launch"/>
+        <param name="PARAMS/track" value="$(env ADORE_SOURCE_DIRECTORY)/adore_if_carla/adore_if_carla/launch/Town10HD.xodr" type="str" />
+        <include ns="PARAMS" file="$(env ADORE_SOURCE_DIRECTORY)/adore_scenarios/adore_params_vehicle_independent.launch"/>
         <param name="PARAMS/lateral_planner/weight_pos" value="1.0" type="double" />  
         <param name="PARAMS/local_road_map/navigation_active" value="false" type="bool" />
-        <include ns="PARAMS" file="$(dirname)/adore_params_vehicle_cybertruck.launch"/>
+        <include ns="PARAMS" file="$(env ADORE_SOURCE_DIRECTORY)/adore_scenarios/adore_params_vehicle_cybertruck.launch"/>
         <node name="tracker" pkg="adore_if_ros" type="adore_feedbackcontroller_node"/>
         <node name="lmap" pkg="adore_if_ros" type="adore_mapprovider_node" cwd="ROS_HOME"/><!-- ROS_HOME is ~/.ros by default-->
         <node name="lnav" pkg="adore_if_ros" type="adore_navigation_node" cwd="ROS_HOME"/>  

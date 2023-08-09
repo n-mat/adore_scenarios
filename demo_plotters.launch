@@ -12,7 +12,7 @@
  *   Thomas Lobig
  ********************************************************************************-->
  <launch>
-    <include file="$(dirname)/adore_params_plotting.launch" />
+    <include file="$(env ADORE_SOURCE_DIRECTORY)/adore_scenarios/adore_params_plotting.launch" />
     <node name="plot_vehicle" pkg="adore_if_ros" type="plot_ego_node"/>
     <node name="plot_lanes" pkg="adore_if_ros" type="plot_lanes_node"/>
     <node name="plot_traffic" pkg="adore_if_ros" type="plot_traffic_node"/>
