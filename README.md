@@ -18,9 +18,9 @@ In the following directory several demonstrations are given to showcase technica
 Their goal is to serve as venture points for setting up simulation experiments with ADORe automated vehicles.
 To run the demo scenarios, build the command-line-interface container and start it:
 ~~~bash
-make adore-cli
+make adore_cli
 ~~~
-Then navigate to the catkin workspace demo directory in the adore-cli container, export your display variable and launch the demo:
+Then navigate to the catkin workspace demo directory in the adore_cli container, export your display variable and launch the demo:
 ~~~bash
 cd catkin_workspace/src/adore_if_ros_demos
 export DISPLAY=:0
