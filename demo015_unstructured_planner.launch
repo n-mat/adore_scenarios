@@ -1,0 +1,52 @@
+<!--********************************************************************************
+ * Copyright (C) 2017-2020 German Aerospace Center (DLR). 
+ * Eclipse ADORe, Automated Driving Open Research https://eclipse.org/adore
+ *
+ * This program and the accompanying materials are made available under the 
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0 
+ *
+ * Contributors: 
+ *   Reza Dariani- initial API and implementation
+ *   Matthias Nichting
+ ********************************************************************************-->
+<launch>
+  <node name="timer" pkg="adore_if_ros" type="adore_timer_node" output="screen" launch-prefix="xterm -e"/>
+  <group ns="vehicle0">
+      <param name="PARAMS/track" value="$(dirname)/tracks/basic_test_track.xodr" type="str" />
+    <param name="simulationID" value="0" type="int" />  
+    <!--node name="unstructured" pkg="adore_if_ros" type="adore_unstructured_planner_node" output="screen"/-->
+    <param name="PARAMS/track" value="$(dirname)/tracks/basic_test_track.xodr;$(dirname)/tracks/circle50m_shift.xodr,transform" type="str" />
+    <!--group ns="PARAMS/map_provider">
+      <param name="r" value="200" type="double" />  
+      <param name="activate_plotting" value="true" type="bool" />  
+      <param name="plot_complete_map_in_local_view" value="false" type="bool" />  
+      <param name="use_scenario_manager_map" value="false" type="bool" />
+    </group-->
+    <node pkg="rostopic" type="rostopic" name="posereset" args="pub /vehicle0/SIM/ResetVehiclePose geometry_msgs/Pose '{position: {x: 150, y: 162, z: 0},orientation: { w: 1}}'"/>
+   
+        <include file="demo_plotters.launch"/>
+    <node name="adore_unstructured_planner_node" pkg="adore_if_ros" type="adore_unstructured_planner_node" output="screen"/>
+    <!--<node name="plot_occupancy_grid_node" pkg="adore_if_ros" type="plot_occupancy_grid_node" output="screen"/>-->
+    <!--node pkg="rostopic" type="rostopic" name="poseresetStart" args="pub /vehicle0/SIM/StartPose geometry_msgs/Pose '{position: {x: 7, y: 7, z: 0},orientation: { z: 0.1, w: -1.0}}'"/>
+    <node pkg="rostopic" type="rostopic" name="poseresetEnd" args="pub /vehicle0/SIM/EndPose geometry_msgs/Pose '{position: {x: 70, y: 9, z: 0},orientation: { z: 0.0, w: -1.0}}'"/-->
+
+
+
+    <include ns="PARAMS" file="$(dirname)/adore_params_vehicle_independent.launch"/>
+    <include ns="PARAMS" file="$(dirname)/adore_params_vehicle_fascare.launch"/>
+    <param name="PARAMS/local_road_map/navigation_active" value="false" type="bool"/>
+    <node name="vmodel" pkg="adore_if_ros" type="adore_vehiclemodel_node"/>
+    <node name="smodel" pkg="adore_if_ros" type="adore_objectdetectionmodel_node"/>
+    <node name="lmap" pkg="adore_if_ros" type="adore_mapprovider_node" cwd="ROS_HOME"/><!-- ROS_HOME is ~/.ros by default-->
+    <node name="tracker" pkg="adore_if_ros" type="adore_feedbackcontroller_node"/>
+    <node name="planner" pkg="adore_if_ros" type="adore_tactical_planner_node" launch-prefix="xterm -e"/>
+    <node name="plot_trajectories_node" pkg="adore_if_ros" type="plot_trajectories_node" launch-prefix="xterm -e"/>
+
+
+
+  </group>
+</launch>
+
